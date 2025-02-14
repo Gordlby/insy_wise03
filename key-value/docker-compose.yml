@@ -1,0 +1,21 @@
+services:
+  database:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - database:/data
+
+  app:
+    build: ./app
+    volumes:
+      - ./app:/app
+      - app:/app/node_modules
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: redis://database:6379/
+volumes:
+  app:
+  database:
+  
